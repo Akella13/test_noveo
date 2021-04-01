@@ -17,6 +17,7 @@
 import axios from 'axios';
 
 export default {
+  name: 'Header',
   data() {
     return {
       masterBreeds: {},
