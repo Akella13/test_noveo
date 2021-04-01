@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Home</h1>
+    <h1>{{ masterBreed }}</h1>
     <Grid />
   </div>
 </template>
@@ -9,9 +9,14 @@
 import Grid from '@/components/Grid';
 
 export default {
-  name: 'Home',
+  name: 'Breed',
   components: {
     Grid,
+  },
+  computed: {
+    masterBreed() {
+      return this.$route.params.breed;
+    },
   },
 }
 </script>

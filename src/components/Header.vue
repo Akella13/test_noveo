@@ -1,14 +1,12 @@
 <template>
   <header>
     <router-link to="/">Home</router-link>
-    <label>
-      Dog master breed
-      <select>
-        <option v-for="breed in masterBreeds" :key="breed">
-          {{ breed }}
-        </option>
-      </select>
-    </label>
+    <select v-model="masterBreed">
+      <option :value="undefined" disabled selected hidden>Select Breed</option>
+      <option v-for="breed in masterBreeds" :key="breed">
+        {{ breed }}
+      </option>
+    </select>
     <router-link to="/favourites">Favourites</router-link>
   </header>
 </template>
@@ -20,8 +18,16 @@ export default {
   name: 'Header',
   data() {
     return {
+      masterBreed: this.$route.params.breed,
       masterBreeds: {},
     };
+  },
+  watch: {
+    masterBreed(breed) {
+      if (breed) {
+        this.$router.push(breed);
+      }
+    },
   },
   mounted() {
     axios.get('https://dog.ceo/api/breeds/list')
@@ -31,6 +37,6 @@ export default {
       .catch(({ response }) => {
         console.error(response);
       })
-  },  
+  },
 }
 </script>
