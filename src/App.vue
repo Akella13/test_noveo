@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <header>
-      <router-link to="/">Home</router-link>
-      <label>
-        Dog breed
-        <select>
-          <option>Husky</option>
-          <option>Bulldog</option>
-        </select>
-      </label>
-      <router-link to="/favourites">Favourites</router-link>
-    </header>
+    <Header />
     <router-view/>
   </div>
 </template>
+
+<script>
+import Header from '@/components/Header';
+
+export default {
+  components: {
+    Header,
+  },
+}
+</script>

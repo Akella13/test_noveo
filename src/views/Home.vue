@@ -1,6 +1,11 @@
 <template>
   <div class="home">
     <h1>Home</h1>
+    <ul>
+      <li v-for="(val, key) in dogsList" :key="val">
+        {{ key }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -16,11 +21,11 @@ export default {
   },
   mounted() {
     axios.get('https://dog.ceo/api/breeds/list/all/random/20')
-      .then(response => {
-        this.dogsList = response.data.message;
+      .then(({ data }) => {
+        this.dogsList = data.message;
       })
-      .catch(error => {
-        console.error(error.response);
+      .catch(({ response }) => {
+        console.error(response);
       });
   },
 }
