@@ -1,19 +1,21 @@
 <template>
   <section>
     <div v-if="Object.keys(dogsList).length > 0">
-      <ul v-if="masterBreed">
+      <ul v-if="['Favourites', 'Breed'].includes($route.name)" >
         <li v-for="(val, key) in dogsList" :key="key">
           {{ val }}
+          <input type="checkbox" v-model="favourites" :value="val">
         </li>
       </ul>
       <ul v-else>
         <li v-for="(val, key) in dogsList" :key="key">
           {{ key }}
+          <input type="checkbox" v-model="favourites" :value="key">
         </li>
       </ul>
     </div>
     <h3 v-else>No breeds</h3>
-    <button v-if="!masterBreed" @click="LoadMore(masterBreed)">Load more</button>
+    <button v-if="infiniteLoad" @click="LoadMore(masterBreed)">Load more</button>
   </section>
 </template>
 
@@ -22,21 +24,51 @@ import axios from 'axios';
 
 export default {
   name: 'Grid',
+  props: {
+    infiniteLoad: {
+      type: Boolean,
+      default: false,
+    },
+    local: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       dogsList: {},
     };
   },
   computed: {
+    favourites: {
+      get () {
+        return this.$store.state.favourites;
+      },
+      set (value) {
+        this.$store.commit('changeFavs', value);
+      }
+    },
     masterBreed() {
       return this.$route.params.breed;
     },
   },
-  mounted() {
-    this.LoadMore(this.masterBreed);
+  watch: {
+    masterBreed() {
+      if (this.masterBreed && !this.local) {
+        this.LoadMore(this.masterBreed);
+      }
+    },
   },
-  updated() {
-    if (this.masterBreed) {
+  created() {
+    if (this.local) {
+      this.dogsList = this.favourites.reduce((acc, curVal, curInd) => {
+        acc[curInd] = curVal;
+        return acc;
+      }, {})
+    }
+  },
+  mounted() {
+    if (!this.local) {
       this.LoadMore(this.masterBreed);
     }
   },

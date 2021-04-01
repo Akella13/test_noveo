@@ -5,11 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    favourites: [],
   },
   mutations: {
+    changeFavs(state, arr) {
+      state.favourites = arr;
+    }
   },
-  actions: {
-  },
-  modules: {
-  }
 })

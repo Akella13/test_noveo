@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <Grid infinite-load />
+    <h1>Favourites</h1>
+    <Grid local />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import Grid from '@/components/Grid';
 
 export default {
-  name: 'Home',
+  name: 'Favourites',
   components: {
     Grid,
   },
