@@ -5,6 +5,7 @@
         <li v-for="(val, key) in dogsList" :key="key">
           {{ val }}
           <input type="checkbox" v-model="favourites" :value="val">
+          <Card :breed="val" :fav="favourites" />
         </li>
       </ul>
       <ul v-else>
@@ -21,9 +22,13 @@
 
 <script>
 import axios from 'axios';
+import Card from '@/components/Card';
 
 export default {
   name: 'Grid',
+  components: {
+    Card,
+  },
   props: {
     infiniteLoad: {
       type: Boolean,
