@@ -10,6 +10,12 @@ export default new Vuex.Store({
   mutations: {
     changeFavs(state, arr) {
       state.favourites = arr;
-    }
+    },
+    addFav(state, el) {
+      state.favourites.push(el);
+    },
+    removeFav(state, el) {
+      state.favourites = state.favourites.filter(item => item !== el)
+    },
   },
 })

@@ -8,7 +8,7 @@
     <div>
       <p v-if="breed">{{ breed }}</p>
       <p v-else>Dog description</p>
-      <input type="checkbox" v-model="fav" :value="breed">
+      <input type="checkbox" :checked="checked" @change="$emit('input', $event.target.checked, breed)" >
     </div>
   </div>
 </template>
@@ -18,7 +18,7 @@ export default {
   name: 'Card',
   props: {
     breed: null,
-    fav: {
+    checked: {
       type: Boolean,
       default: false,
     },

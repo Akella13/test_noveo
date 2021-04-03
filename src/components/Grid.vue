@@ -3,15 +3,12 @@
     <div v-if="Object.keys(dogsList).length > 0">
       <ul v-if="['Favourites', 'Breed'].includes($route.name)" >
         <li v-for="(val, key) in dogsList" :key="key">
-          {{ val }}
-          <input type="checkbox" v-model="favourites" :value="val">
-          <Card :breed="val" :fav="favourites" />
+          <Card :breed="val" :checked="favourites.includes(val)" @input="ChangeFavs" />
         </li>
       </ul>
       <ul v-else>
         <li v-for="(val, key) in dogsList" :key="key">
-          {{ key }}
-          <input type="checkbox" v-model="favourites" :value="key">
+          <Card :breed="key" :checked="favourites.includes(key)" @input="ChangeFavs" />
         </li>
       </ul>
     </div>
@@ -45,13 +42,8 @@ export default {
     };
   },
   computed: {
-    favourites: {
-      get () {
-        return this.$store.state.favourites;
-      },
-      set (value) {
-        this.$store.commit('changeFavs', value);
-      }
+    favourites() {
+      return this.$store.state.favourites;
     },
     masterBreed() {
       return this.$route.params.breed;
@@ -98,6 +90,9 @@ export default {
           this.$set(this, 'dogsList', {});
         });
       }
+    },
+    ChangeFavs(arg, breed) {
+      arg ? this.$store.commit('addFav', breed) : this.$store.commit('removeFav', breed);
     },
   },
 }
