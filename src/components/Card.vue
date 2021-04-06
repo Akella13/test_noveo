@@ -1,7 +1,8 @@
 <template>
   <div class="card">
     <div class="img__container">
-      <svg class="img">
+      <img v-if="source" :src="source" :alt="breed" class="img">
+      <svg v-else class="img__fallback">
         <use xlink:href="@/assets/dog.svg#Capa_1" />
       </svg>
     </div>
@@ -14,14 +15,35 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Card',
   props: {
     breed: null,
+    masterBreed: null,
     checked: {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      source: null,
+    };
+  },
+  mounted() {
+    if (this.masterBreed && this.breed) {
+      axios.get(`https://dog.ceo/api/breed/${this.masterBreed}/${this.breed}/images/random`)
+        .then(({ data }) => {
+          this.source = data.message;
+        })
+    } else if (this.breed) {
+      axios.get(`https://dog.ceo/api/breed/${this.breed}/images/random`)
+        .then(({ data }) => {
+          this.source = data.message;
+        })
+    }
   },
 }
 </script>
@@ -36,9 +58,8 @@ export default {
   }
 
   .img {
-    width: 80%;
-    height: 80%;
-    fill: #aaa;
+    width: 100%;
+    height: 100%;
 
     &__container {
       width: 100%;
@@ -48,6 +69,12 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    &__fallback {
+      width: 80%;
+      height: 80%;
+      fill: #aaa;
     }
   }
 </style>

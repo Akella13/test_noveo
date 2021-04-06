@@ -3,12 +3,12 @@
     <div v-if="Object.keys(dogsList).length > 0">
       <ul v-if="['Favourites', 'Breed'].includes($route.name)" >
         <li v-for="(val, key) in dogsList" :key="key">
-          <Card :breed="val" :checked="favourites.includes(val)" @input="ChangeFavs" />
+          <Card :breed="val" :master-breed="masterBreed" :checked="favourites.includes(val)" @input="ChangeFavs" />
         </li>
       </ul>
       <ul v-else>
         <li v-for="(val, key) in dogsList" :key="key">
-          <Card :breed="key" :checked="favourites.includes(key)" @input="ChangeFavs" />
+          <Card :breed="key" :master-breed="masterBreed" :checked="favourites.includes(key)" @input="ChangeFavs" />
         </li>
       </ul>
     </div>
