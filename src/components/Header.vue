@@ -28,6 +28,14 @@ export default {
         this.$router.push(breed);
       }
     },
+    '$route.params.breed': {
+      handler(breed) {
+        if (!breed) {
+          this.masterBreed = undefined;
+        }
+      },
+      deep: true,
+    }
   },
   mounted() {
     axios.get('https://dog.ceo/api/breeds/list')
