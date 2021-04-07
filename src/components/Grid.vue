@@ -11,9 +11,11 @@
           <Card :breed="key" :master-breed="masterBreed" :checked="favourites.includes(key)" @input="ChangeFavs" />
         </li>
       </ul>
+      <button v-if="infiniteLoad && !noMoreDogs" @click="LoadMore(masterBreed)" ref="loadingButton">
+        Load more
+      </button>
     </div>
     <h3 v-else>No breeds</h3>
-    <button v-if="infiniteLoad" @click="LoadMore(masterBreed)">Load more</button>
   </section>
 </template>
 
@@ -39,6 +41,7 @@ export default {
   data() {
     return {
       dogsList: {},
+      noMoreDogs: false,
     };
   },
   computed: {
@@ -69,11 +72,23 @@ export default {
       this.LoadMore(this.masterBreed);
     }
   },
+  beforeUpdate() {
+    document.removeEventListener('scroll', this.ScrollEventListener);
+  },
+  updated() {
+    document.addEventListener('scroll', this.ScrollEventListener);
+  },
+  beforeDestroy() {
+    document.removeEventListener('scroll', this.ScrollEventListener);
+  },
   methods: {
     LoadMore(masterBreed) {
       if (masterBreed) {
         axios.get(`https://dog.ceo/api/breed/${masterBreed}/list/random/20`)
         .then(({ data }) => {
+          if (Object.keys(data.message).length < 20) {
+            this.noMoreDogs = true;
+          }
           this.dogsList = { ...this.dogsList, ...data.message };
         })
         .catch(({ response }) => {
@@ -83,6 +98,9 @@ export default {
       } else {
         axios.get('https://dog.ceo/api/breeds/list/all/random/20')
         .then(({ data }) => {
+          if (Object.keys(data.message).length < 20) {
+            this.noMoreDogs = true;
+          }
           this.dogsList = { ...this.dogsList, ...data.message };
         })
         .catch(({ response }) => {
@@ -93,6 +111,20 @@ export default {
     },
     ChangeFavs(arg, breed) {
       arg ? this.$store.commit('addFav', breed) : this.$store.commit('removeFav', breed);
+    },
+    ScrollEventListener() {
+      if (this.IsElementInViewport(this.$refs.loadingButton)) {
+        this.LoadMore(this.masterBreed);
+      }
+    },
+    IsElementInViewport(el) {
+      let rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document. documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document. documentElement.clientWidth)
+      );
     },
   },
 }

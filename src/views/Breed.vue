@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ masterBreed }}</h1>
-    <Grid />
+    <Grid infinite-load/>
   </div>
 </template>
 
