@@ -1,13 +1,13 @@
 <template>
   <section>
     <div v-if="Object.keys(dogsList).length > 0">
-      <ul v-if="['Favourites', 'Breed'].includes($route.name)" >
-        <li v-for="(val, key) in dogsList" :key="key">
+      <ul v-if="['Favourites', 'Breed'].includes($route.name)" class="grid">
+        <li v-for="(val, key) in dogsList" :key="key" class="grid__el">
           <Card :breed="val" :master-breed="masterBreed" :checked="favourites.includes(val)" @input="ChangeFavs" />
         </li>
       </ul>
-      <ul v-else>
-        <li v-for="(val, key) in dogsList" :key="key">
+      <ul v-else class="grid">
+        <li v-for="(val, key) in dogsList" :key="key" class="grid__el">
           <Card :breed="key" :master-breed="masterBreed" :checked="favourites.includes(key)" @input="ChangeFavs" />
         </li>
       </ul>
@@ -97,3 +97,21 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+  .grid {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+
+    @media screen and (min-width: 900px) {
+      grid-template-columns: repeat(4,  1fr);
+    }
+
+    &__el {
+      display: flex;
+      justify-content: center;
+    }
+  }
+</style>
