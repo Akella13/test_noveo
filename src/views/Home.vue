@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Home</h1>
+    <h1 class="heading">Home</h1>
     <Grid infinite-load />
   </div>
 </template>

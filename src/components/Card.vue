@@ -6,7 +6,7 @@
         <use xlink:href="@/assets/dog.svg#Capa_1" />
       </svg>
     </div>
-    <div>
+    <div class="card__desc">
       <p v-if="breed">{{ breed }}</p>
       <p v-else>Dog description</p>
     </div>
@@ -51,8 +51,7 @@ export default {
   },
   methods: {
     ChangeFavStatus() {
-      this.checked = !this.checked;
-      this.$emit('input', this.checked, this.breed);
+      this.$emit('input', !this.checked, this.breed);
     },
   },
 }
@@ -66,6 +65,8 @@ export default {
     border-radius: 2%;
     overflow: hidden;
     position: relative;
+    display: flex;
+    flex-direction: column;
 
     &__checked &__button {
       opacity: 1;
@@ -73,6 +74,13 @@ export default {
 
     &:hover &__button {
       opacity: 1;
+    }
+
+    &__desc {
+      flex-grow: 1;
+      background-color: white;
+      text-align: center;
+      padding: 0.5em;
     }
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ masterBreed }}</h1>
+    <h1 class="heading">{{ masterBreed }}</h1>
     <Grid infinite-load/>
   </div>
 </template>

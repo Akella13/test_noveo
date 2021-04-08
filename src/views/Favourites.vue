@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Favourites</h1>
+    <h1 class="heading">Favourites</h1>
     <Grid local />
   </div>
 </template>
