@@ -6,20 +6,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      visible: false,
+    };
+  },
   computed: {
-    visible: {
-      get() {
-        return this.$store.state.heightExceed && window.scrollY > 100;
-      },
-      set(arg) {
-        this.$store.commit('changeDocHeight', arg);
-      },
+    heightExceed() {
+      return this.$store.state.heightExceed;
     },
   },
-  beforeUpdate() {
-    document.removeEventListener('scroll', this.ScrollEventListener);
+  watch: {
+    heightExceed(val) {
+      if (val && window.scrollY > 100) {
+        this.visible = true;
+      } else {
+        this.visible = false;
+      }
+    },
   },
-  updated() {
+  mounted() {
     document.addEventListener('scroll', this.ScrollEventListener);
   },
   beforeDestroy() {
@@ -30,9 +36,9 @@ export default {
       window.scrollTo(0, 0);
     },
     ScrollEventListener() {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 100 && !this.visible) {
         this.visible = true;
-      } else {
+      } else if (window.scrollY <= 100 && this.visible) {
         this.visible = false;
       }
     },
