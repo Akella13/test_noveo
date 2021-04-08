@@ -71,12 +71,14 @@ export default {
     if (!this.local) {
       this.LoadMore(this.masterBreed);
     }
+    this.$store.commit('changeDocHeight', document.body.scrollHeight > window.innerHeight);
   },
   beforeUpdate() {
     document.removeEventListener('scroll', this.ScrollEventListener);
   },
   updated() {
     document.addEventListener('scroll', this.ScrollEventListener);
+    this.$store.commit('changeDocHeight', document.body.scrollHeight > window.innerHeight);
   },
   beforeDestroy() {
     document.removeEventListener('scroll', this.ScrollEventListener);

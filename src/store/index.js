@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     favourites: [],
+    heightExceed: false,
   },
   mutations: {
     changeFavs(state, arr) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     removeFav(state, el) {
       state.favourites = state.favourites.filter(item => item !== el)
+    },
+    changeDocHeight(state, bool) {
+      state.heightExceed = bool;
     },
   },
 })
